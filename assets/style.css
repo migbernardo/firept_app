@@ -1,0 +1,8 @@
+body{
+     background-color:#EDEFEB;
+     font-family: "Open Sans", verdana, arial, sans-serif;
+}
+
+.column {
+    float: left;
+}
