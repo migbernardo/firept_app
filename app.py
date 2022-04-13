@@ -1,4 +1,5 @@
 import dash
+from dash import dcc, html
 
 app = dash.Dash(__name__)
 
@@ -20,7 +21,7 @@ app.layout = html.Div([
                     html.Div([dcc.Graph(figure={}, id='sun')], className='column', style={'width': '50%'}),
                     html.Div([dcc.Graph(figure={}, id='barplot')], className='column', style={'width': '50%'})
                              ])
-            ], className='row', style={'height': '40vh'}),
+            ], className='row'),
 
             html.Div([html.H4('SOMETHING'),
                       dcc.RangeSlider(2001, 2018, 1, value=[2001, 2003], marks=None,
