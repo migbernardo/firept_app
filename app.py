@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import dash
 from dash import dcc, html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.express as px
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
@@ -24,18 +24,37 @@ app.layout = html.Div([
 
     html.Div([html.H1('Fires in Portugal: An In-Depth Look')], className='title'),
 
+    html.Div([html.H6('Environmental, human, and economic losses due to fires are an ever-present and increasing '
+                      'threat in Portugal. ’Megafires’ similar to the 2017 Pedrógão Grande fire have been identified '
+                      'by the EU Climate Action and Resource Efficiency Unit as a major concern, since they challenge '
+                      'the suppression capacities of many wildfire protection programs. The unit indicates that '
+                      'cultural perception and awareness of the risk of fires are critical to understanding and '
+                      'managing fires, and should be integrated into fire-related policies at local, national, '
+                      'and EU levels, empowered by local communities. This dashboard is presented to aid in the EU '
+                      'call to action, and to reinforce the exchange of information and collaboration in regards to '
+                      'fires within the Portuguese community.')]),
+
     html.Div([dcc.Slider(2001, 2018, 1, value=2001, marks={i: '{}'.format(i) for i in range(2001, 2019)},
                          tooltip={"placement": "bottom", "always_visible": True},
                          included=False,
-                         id='slider')], className='slider_box'),
+                         id='slider', className='slider')], className='slider_box'),
 
     html.Div([
 
         html.Div([
+
             html.Div([
-                html.Div([dcc.Graph(figure={}, id='barplot')], className='inner_column', style={'width': '49%', 'margin': '0.5%'}),
-                html.Div([dcc.Graph(figure={}, id='sun')], className='inner_column', style={'width': '49%', 'margin': '0.5%'})
+                html.H6('Title')
+            ], className='text_box'),
+
+            html.Div([
+
+                html.Div([dcc.Graph(figure={}, id='barplot')], className='inner_column',
+                         style={'width': '49%', 'margin': '0.5%'}),
+                html.Div([dcc.Graph(figure={}, id='sun')], className='inner_column',
+                         style={'width': '49%', 'margin': '0.5%'})
             ], className='graph_box'),
+
             html.Div([
                 html.H4('TITLE'),
                 dcc.RangeSlider(2001, 2018, 1, value=[2001, 2003],
@@ -43,9 +62,16 @@ app.layout = html.Div([
                                 tooltip={"placement": "bottom", "always_visible": True}, dots=True, pushable=2,
                                 id='range_slider')
             ], className='range_slider_box'),
+
             html.Div([
-                html.Div([dcc.Graph(figure={}, id='sankey')], className='inner_column', style={'width': '49%', 'margin': '0.5%'}),
-                html.Div([dcc.Graph(figure={}, id='barplot2')], className='inner_column', style={'width': '49%', 'margin': '0.5%'})
+                html.H6('Title')
+            ], className='text_box'),
+
+            html.Div([
+                html.Div([dcc.Graph(figure={}, id='sankey')], className='inner_column',
+                         style={'width': '49%', 'margin': '0.5%'}),
+                html.Div([dcc.Graph(figure={}, id='barplot2')], className='inner_column',
+                         style={'width': '49%', 'margin': '0.5%'})
             ], className='graph_box'),
         ], className='column', style={'width': '69%', 'margin': '0.5%'}),
 
@@ -55,7 +81,7 @@ app.layout = html.Div([
 
     ], className='inner_box'),
 
-    html.Div([html.H1('TITLE')], className='authors_box')
+    html.Div([html.H6('Title')], className='authors_box')
 
 ], className='box')
 
@@ -298,7 +324,7 @@ def bar2_update(years):
         plot_bgcolor=None,
         hovermode='x unified'
     )
-    fig.update_xaxes(nticks=len(range(years[0], years[1]+2)))
+    fig.update_xaxes(nticks=len(range(years[0], years[1] + 2)))
     fig.update_layout(go.Layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'))
 
     return fig
