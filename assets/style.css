@@ -1,8 +1,23 @@
 body{
-     background-color:#EDEFEB;
+     background-color: #99a682;
      font-family: "Open Sans", verdana, arial, sans-serif;
 }
 
 .column {
     float: left;
 }
+
+.map {
+    border-radius: 10px;
+    background-color: #EBF8E2;
+    box-shadow: 2px 2px 2px lightgrey;
+}
+
+.inner_column {
+    float: left;
+    border-radius: 10px;
+    background-color: #EBF8E2;
+    box-shadow: 2px 2px 2px lightgrey;
+}
+
+

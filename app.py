@@ -22,41 +22,42 @@ server = app.server
 
 app.layout = html.Div([
 
-    html.Div([html.H1('TITLE')], className='container_row'),
+    html.Div([html.H1('Fires in Portugal: An In-Depth Look')], className='title'),
 
-    html.Div([dcc.Slider(2001, 2018, 1, value=2001, marks=None,
+    html.Div([dcc.Slider(2001, 2018, 1, value=2001, marks={i: '{}'.format(i) for i in range(2001, 2019)},
                          tooltip={"placement": "bottom", "always_visible": True},
-                         id='slider')], className='container_row'),
+                         included=False,
+                         id='slider')], className='slider_box'),
 
     html.Div([
+
         html.Div([
-
             html.Div([
-                html.Center([
-                    html.Div([dcc.Graph(figure={}, id='barplot')], className='column', style={'width': '50%'}),
-                    html.Div([dcc.Graph(figure={}, id='sun')], className='column', style={'width': '50%'})
-                ])
-            ], className='row'),
-
-            html.Div([html.H4('SOMETHING'),
-                      dcc.RangeSlider(2001, 2018, 1, value=[2001, 2003], marks=None,
-                                      tooltip={"placement": "bottom", "always_visible": True}, dots=True, pushable=2,
-                                      id='range_slider')], className='row'),
-
+                html.Div([dcc.Graph(figure={}, id='barplot')], className='inner_column', style={'width': '49%', 'margin': '0.5%'}),
+                html.Div([dcc.Graph(figure={}, id='sun')], className='inner_column', style={'width': '49%', 'margin': '0.5%'})
+            ], className='graph_box'),
             html.Div([
-                html.Div([dcc.Graph(figure={}, id='sankey')], className='column', style={'width': '50%'}),
-                html.Div([dcc.Graph(figure={}, id='barplot2')], className='column', style={'width': '50%'}),
-            ], className='row'),
+                html.H4('TITLE'),
+                dcc.RangeSlider(2001, 2018, 1, value=[2001, 2003],
+                                marks={i: '{}'.format(i) for i in range(2001, 2019)},
+                                tooltip={"placement": "bottom", "always_visible": True}, dots=True, pushable=2,
+                                id='range_slider')
+            ], className='range_slider_box'),
+            html.Div([
+                html.Div([dcc.Graph(figure={}, id='sankey')], className='inner_column', style={'width': '49%', 'margin': '0.5%'}),
+                html.Div([dcc.Graph(figure={}, id='barplot2')], className='inner_column', style={'width': '49%', 'margin': '0.5%'})
+            ], className='graph_box'),
+        ], className='column', style={'width': '69%', 'margin': '0.5%'}),
 
-        ], className='column', style={'width': '75%'}),
+        html.Div([
+            html.Div([dcc.Graph(figure={}, id='map', style={'height': '100vh'})], className='map')
+        ], className='column', style={'width': '29%', 'margin': '0.5%'})
 
-        html.Div([dcc.Graph(figure={}, id='map', style={'height': '100vh'})],
-                 className='column', style={'width': '25%'}),
-    ], className='container_row'),
+    ], className='inner_box'),
 
-    html.Div([html.H4('SOURCES/AUTHORS')], className='container_row'),
+    html.Div([html.H1('TITLE')], className='authors_box')
 
-], className='container')
+], className='box')
 
 
 @app.callback(
@@ -70,6 +71,7 @@ def map_update(year):
     fig = px.density_mapbox(mapdata, lat='lat', lon='lon', z=np.log(mapdata['total_ba']), radius=60,
                             center=dict(lat=39.557191, lon=-7.8536599), zoom=6,
                             opacity=1,
+                            color_continuous_scale='solar_r',
                             mapbox_style="stamen-terrain")
 
     fig.update_layout(go.Layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'))
@@ -225,19 +227,23 @@ def sankey_update(years):
 
     value = [item for sublist in value for item in sublist]
 
+    colors_all = ["firebrick", "red", "orange", "darksalmon", "orangered", "tomato", "rosybrown", "goldenrod",
+                  "darkred", "lightsalmon", "moccasin", "sienna", "orange", "maroon"]
+    link_colors = [colors_all[i] for i in target]
+
     fig = go.Figure(data=[go.Sankey(
         node=dict(
             pad=15,
             thickness=20,
             line=dict(color="black", width=0.5),
             label=label,
-            color=["firebrick", "red", "lightsalmon", "lightyellow", "orange", "orangered", "peachpuff", "rosybrown",
-                   "goldenrod", "darksalmon", "lemonchiffon"]
+            color=colors_all
         ),
         link=dict(
             source=source,
             target=target,
-            value=value
+            value=value,
+            color=link_colors
         ))])
 
     fig.update_layout(go.Layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'))
@@ -256,7 +262,7 @@ def bar2_update(years):
 
     fig.add_trace(
         go.Scatter(
-            x=bar2.index,
+            x=bar2['year'],
             y=bar2['total_ba'],
             fill='tozeroy',
             line_color='orange',
@@ -266,35 +272,30 @@ def bar2_update(years):
 
     fig.add_trace(
         go.Bar(
-            x=bar2.index,
+            x=bar2['year'],
             y=bar2['expenditure'],
             name='Fire Brigade Expenditure (EUR)'
         )
     )
 
-    #fig.add_trace(
-        #go.Scatter(
-            #x=bar2.index,
-            #y=bar2['exp_ba'],
-            #marker_color='black',
-            #name='Expenditure per Burnt Area',
-        #),
-        #secondary_y=True
-    #)
+    fig.add_trace(
+        go.Scatter(
+            x=bar2['year'],
+            y=bar2['ratio'],
+            marker_color='black',
+            name='Expenditure per Burnt Area',
+        ),
+        secondary_y=True
+    )
 
     fig.update_xaxes(title_text="Years")
-    fig.update_yaxes(title_text="Expenditure (EUR) / Hectare (M^2)", secondary_y=False)
+    fig.update_yaxes(title_text="EUR / Hectare", secondary_y=False)
     fig.update_yaxes(title_text="Expenditure per Burnt Area", secondary_y=True)
 
     fig.update_layout(
-        legend_title_text="Legend",
+        legend={'yanchor': 'top', 'y': 1.4, 'xanchor': 'left', 'x': 0.01},
         paper_bgcolor=None,
-        font_family="Courier New",
-        font_color="black",
-        title_font_family="Times New Roman",
-        title_font_color="black",
-        legend_title_font_color="black",
-        plot_bgcolor='white',
+        plot_bgcolor=None,
         hovermode='x unified'
     )
     fig.update_layout(go.Layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'))
