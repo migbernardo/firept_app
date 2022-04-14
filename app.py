@@ -22,7 +22,16 @@ server = app.server
 
 app.layout = html.Div([
 
-    html.Div([html.H1('Fires in Portugal: An In-Depth Look')], className='title'),
+    html.Div([
+        html.Div([
+            html.H1('Fires in Portugal: An In-Depth Look')
+        ], className='column', style={'width': '50%'}),
+        html.Div([
+            html.Img(src=app.get_asset_url("Nova_IMS.png"),
+                     style={"height": "60px", "width": "auto", "margin-bottom": "25px"}, className='image')
+        ], className='column', style={'width': '50%'}),
+
+    ], className='title'),
 
     html.Div([html.H6('Environmental, human, and economic losses due to fires are an ever-present and increasing '
                       'threat in Portugal. ’Megafires’ similar to the 2017 Pedrógão Grande fire have been identified '
