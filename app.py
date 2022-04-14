@@ -298,6 +298,7 @@ def bar2_update(years):
         plot_bgcolor=None,
         hovermode='x unified'
     )
+    fig.update_xaxes(nticks=len(range(years[0], years[1]+2)))
     fig.update_layout(go.Layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'))
 
     return fig

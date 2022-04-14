@@ -117,7 +117,7 @@
       <workItem from="1649858786667" duration="6711000" />
       <workItem from="1649865556137" duration="249000" />
       <workItem from="1649942331451" duration="11738000" />
-      <workItem from="1649954481777" duration="2069000" />
+      <workItem from="1649954481777" duration="3244000" />
     </task>
     <servers />
   </component>
@@ -127,6 +127,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/firept_app$layout_test.coverage" NAME="layout_test Coverage Results" MODIFIED="1649945951793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/firept_app$debug_layout.coverage" NAME="debug_layout Coverage Results" MODIFIED="1649953250662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/firept_app$app.coverage" NAME="app Coverage Results" MODIFIED="1649956471654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/firept_app$app.coverage" NAME="app Coverage Results" MODIFIED="1649957707447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
