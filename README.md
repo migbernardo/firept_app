@@ -1,1 +1,1 @@
-# firept_app
+# Fire PT app repository
