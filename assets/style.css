@@ -32,3 +32,13 @@ body{
 .image {
     float: right
 }
+
+.authors_box {
+    border-radius: 10px;
+    background-color: #EBF8E2;
+    box-shadow: 2px 2px 2px lightgrey;
+}
+
+.slider{
+    color: #000000;
+}
