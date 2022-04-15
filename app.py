@@ -135,7 +135,7 @@ def map_update(year):
     fig = px.density_mapbox(mapdata, lat='lat', lon='lon', z=np.round(np.log(mapdata['total_ba']), decimals=2), radius=60,
                             labels={'z': 'log burnt area'},
                             hover_data={'region': mapdata.index, 'burnt area': np.round(mapdata['total_ba'], decimals=2)},
-                            center=dict(lat=39.557191, lon=-7.8536599), zoom=6,
+                            center=dict(lat=39.557191, lon=-7.8536599), zoom=5.5,
                             opacity=1,
                             color_continuous_scale='solar_r',
                             mapbox_style="stamen-terrain")
