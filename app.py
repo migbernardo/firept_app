@@ -44,7 +44,6 @@ app.layout = html.Div([
                      'fires within the Portuguese community.')], style={'padding': '1%', 'font-size': '120%'}),
 
     html.Div([dcc.Slider(2001, 2018, 1, value=2007, marks={i: {'label': '{}'.format(i), 'style': {'color': 'black'}} for i in range(2001, 2019)},
-                         tooltip={"placement": "bottom", "always_visible": True},
                          included=False,
                          id='slider', className='slider')], className='slider_box'),
 
@@ -78,7 +77,7 @@ app.layout = html.Div([
                 html.P('P', style={'color': '#99a682'}),
                 dcc.RangeSlider(2001, 2018, 1, value=[2010, 2018],
                                 marks={i: {'label': '{}'.format(i), 'style': {'color': 'black'}} for i in range(2001, 2019)},
-                                tooltip={"placement": "bottom", "always_visible": True}, dots=True, pushable=2,
+                                dots=True, pushable=2,
                                 id='range_slider')
             ], className='range_slider_box'),
 
