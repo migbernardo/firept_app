@@ -8,18 +8,22 @@ import plotly.express as px
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 
+# store dir paths
 data_dir = os.path.join(os.path.abspath(os.curdir), 'data')
 assets_dir = os.path.join(os.path.abspath(os.curdir), 'assets')
 
+# load data
 df = pd.read_csv(os.path.join(data_dir, 'main_data.csv'), low_memory=False)
 df.drop('Unnamed: 0', axis=1, inplace=True)
 exp = pd.read_csv(os.path.join(data_dir, 'expenditure.csv'), low_memory=False)
 regions = pd.read_excel(os.path.join(data_dir, 'regions.xlsx'))
 
+# app
 app = dash.Dash(__name__)
 
 server = app.server
 
+# app layout
 app.layout = html.Div([
 
     html.Div([
@@ -43,7 +47,8 @@ app.layout = html.Div([
                      'call to action, and to reinforce the exchange of information and collaboration in regards to '
                      'fires within the Portuguese community.')], style={'padding': '1%', 'font-size': '120%'}),
 
-    html.Div([dcc.Slider(2001, 2018, 1, value=2007, marks={i: {'label': '{}'.format(i), 'style': {'color': 'black'}} for i in range(2001, 2019)},
+    html.Div([dcc.Slider(2001, 2018, 1, value=2007,
+                         marks={i: {'label': '{}'.format(i), 'style': {'color': 'black'}} for i in range(2001, 2019)},
                          included=False,
                          id='slider', className='slider')], className='slider_box'),
 
@@ -76,7 +81,8 @@ app.layout = html.Div([
                 # text box to fill space with same color as background
                 html.P('P', style={'color': '#99a682'}),
                 dcc.RangeSlider(2001, 2018, 1, value=[2010, 2018],
-                                marks={i: {'label': '{}'.format(i), 'style': {'color': 'black'}} for i in range(2001, 2019)},
+                                marks={i: {'label': '{}'.format(i), 'style': {'color': 'black'}} for i in
+                                       range(2001, 2019)},
                                 dots=True, pushable=2,
                                 id='range_slider')
             ], className='range_slider_box'),
@@ -123,6 +129,7 @@ app.layout = html.Div([
 ], className='box')
 
 
+# map callback
 @app.callback(
     Output(component_id='map', component_property='figure'),
     Input(component_id='slider', component_property='value')
@@ -131,9 +138,11 @@ def map_update(year):
     map_df = df[df['year'] == year].groupby('region').agg('sum')
     mapdata = map_df.merge(regions, left_on=map_df.index, right_on='region').set_index('region')
 
-    fig = px.density_mapbox(mapdata, lat='lat', lon='lon', z=np.round(np.log(mapdata['total_ba']), decimals=2), radius=60,
+    fig = px.density_mapbox(mapdata, lat='lat', lon='lon', z=np.round(np.log(mapdata['total_ba']), decimals=2),
+                            radius=60,
                             labels={'z': 'log burnt area'},
-                            hover_data={'region': mapdata.index, 'burnt area': np.round(mapdata['total_ba'], decimals=2)},
+                            hover_data={'region': mapdata.index,
+                                        'burnt area': np.round(mapdata['total_ba'], decimals=2)},
                             center=dict(lat=39.557191, lon=-7.8536599), zoom=5.5,
                             opacity=1,
                             color_continuous_scale='solar_r',
@@ -144,6 +153,7 @@ def map_update(year):
     return fig
 
 
+# sunburst callback
 @app.callback(
     Output(component_id='sun', component_property='figure'),
     Input(component_id='slider', component_property='value')
@@ -204,6 +214,7 @@ def sun_update(year):
     return fig
 
 
+# barplot callback
 @app.callback(
     Output(component_id='barplot', component_property='figure'),
     Input(component_id='slider', component_property='value')
@@ -264,6 +275,7 @@ def bar_update(year):
     return fig
 
 
+# sankey callback
 @app.callback(
     Output(component_id='sankey', component_property='figure'),
     Input(component_id='range_slider', component_property='value')
@@ -318,6 +330,7 @@ def sankey_update(years):
     return fig
 
 
+# subplot callback
 @app.callback(
     Output(component_id='barplot2', component_property='figure'),
     Input(component_id='range_slider', component_property='value')
@@ -371,5 +384,6 @@ def bar2_update(years):
     return fig
 
 
+# run app
 if __name__ == '__main__':
     app.run_server(debug=True)
