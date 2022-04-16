@@ -279,13 +279,18 @@ def map_update(year):
     Input(component_id='dropdown', component_property='value')
 )
 def sun_update(year):
-    sundata = df[(df['year'] == year)]
-    if year != 2017:
+    if year == 2017:
+        sundata = df[(df['year'] == year)]
+        sundata.reset_index(inplace=True)
+        sundata.iloc[sundata[sundata['county'] == 'Montemor-o-Velho']['region'].index, 4] = 'Coimbra'
+        sundata.iloc[sundata[sundata['county'] == 'Idanha-a-Nova']['region'].index, 4] = 'Castelo Branco'
+        sundata = sundata.groupby(['region', 'county'])['code'].count().to_frame().reset_index()
+    else:
+        sundata = df[(df['year'] == year)]
+        sundata.reset_index(inplace=True)
         sundata = sundata.groupby(['region', 'county'])['code'].count().to_frame().reset_index()
         sundata["lower"] = sundata.groupby(['region'])['code'].transform(lambda x: x.quantile(0.1))
         sundata = sundata[sundata.code > sundata.lower]
-    else:
-        sundata = sundata.groupby(['region', 'county'])['code'].count().to_frame().reset_index()
 
     zona = []
 
@@ -335,9 +340,13 @@ def sun_update(year):
                       values='code',
                       color='zona',
                       labels={"region": "Portuguese Districts", "code": "# Fires", "zona": "Zone"},
-                      color_discrete_map={"North": "seagreen", "South": "lightseagreen", "Center": "burlywood"})
+                      color_discrete_map={"North": "seagreen", "South": "lightseagreen", "Center": "burlywood"},
+                      branchvalues="total"
+                      )
 
     fig.update_layout(go.Layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)'))
+
+    fig.update_traces(insidetextorientation='radial')
 
     return fig
 
