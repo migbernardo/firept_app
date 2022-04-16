@@ -1,3 +1,3 @@
 Fire PT app repository
 
-Recommended screen resolution: 1920 x 1080
+Recommended screen resolution: 1920x1080px
