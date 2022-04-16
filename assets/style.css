@@ -9,32 +9,42 @@ body{
     float: left;
 }
 
-.map {
+.intro_box {
     border-radius: 10px;
     background-color: #EBF8E2;
-    box-shadow: 2px 2px 2px lightgrey;
 }
 
-.inner_column {
-    float: left;
+.dropdown_box {
     border-radius: 10px;
     background-color: #EBF8E2;
-    box-shadow: 2px 2px 2px lightgrey;
 }
 
-.text_box {
+.map_box {
     border-radius: 10px;
     background-color: #EBF8E2;
-    box-shadow: 2px 2px 2px lightgrey;
-
 }
 
-.image {
-    float: right
+.plot_text_box {
+    border-radius: 10px;
+    background-color: lightgray;
+}
+
+.mapbox_text_box {
+    border-radius: 10px;
+    background-color: lightgray;
+}
+
+.plot_box {
+    border-radius: 10px;
+    background-color: #EBF8E2;
+}
+
+.range_slider_box {
+    border-radius: 10px;
+    background-color: #EBF8E2;
 }
 
 .authors_box {
     border-radius: 10px;
     background-color: #EBF8E2;
-    box-shadow: 2px 2px 2px lightgrey;
 }
