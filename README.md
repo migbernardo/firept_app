@@ -1,5 +1,5 @@
 # Fire PT app repository
 
-![Dashboard](https://github.com/phelber/EuroSAT/blob/master/eurosat_overview_small.jpg?raw=true)
+![Dashboard](https://github.com/migbernardo/firept_app/blob/03b64efd99bc1e52f9c41ec84748622c8446ce9e/assets/dashboard.png?raw=true)
 
 Recommended screen resolution: 1920x1080px
