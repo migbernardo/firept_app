@@ -280,9 +280,13 @@ def map_update(year):
 )
 def sun_update(year):
     sundata = df[(df['year'] == year)]
-    sundata = sundata.groupby(['region', 'county'])['code'].count().to_frame().reset_index()
-    sundata["lower"] = sundata.groupby(['region'])['code'].transform(lambda x: x.quantile(0.1))
-    sundata = sundata[sundata.code > sundata.lower]
+    if year != 2017:
+        sundata = sundata.groupby(['region', 'county'])['code'].count().to_frame().reset_index()
+        sundata["lower"] = sundata.groupby(['region'])['code'].transform(lambda x: x.quantile(0.1))
+        sundata = sundata[sundata.code > sundata.lower]
+    else:
+        sundata = sundata.groupby(['region', 'county'])['code'].count().to_frame().reset_index()
+
     zona = []
 
     for i in list(sundata['region'].values):
